@@ -154,6 +154,12 @@ class _HomePageState extends State<HomePage> {
               onDelete: (MyTodo todo) {
                 _deleteTodoWithUndo(todo);
               },
+              onToggle: () {
+                // Called whenever a checkbox is toggled
+                setState(() {
+                  saveTodos();
+                });
+              },
             )
           ],
         ),
@@ -188,10 +194,12 @@ class TodoListView extends StatelessWidget {
     super.key,
     required this.todoslist,
     required this.onDelete,
+    required this.onToggle,
   });
 
   final List<MyTodo> todoslist;
   final Function(MyTodo) onDelete;
+  final VoidCallback onToggle;
 
   @override
   Widget build(BuildContext context) {
@@ -212,6 +220,7 @@ class TodoListView extends StatelessWidget {
               onDelete: () {
                 onDelete(todoslist[index]);
               },
+              onToggle: onToggle,
             ),
           );
         },
