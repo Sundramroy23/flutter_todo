@@ -18,20 +18,38 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isDarkTheme = false; // initial theme
+
+  void toggleTheme() {
+    setState(() {
+      isDarkTheme = !isDarkTheme;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
-      theme: ThemeData().copyWith(
-        appBarTheme: AppBarTheme(
-          color: tdBGColor,
-        ), // Custom AppBar color
-        scaffoldBackgroundColor: tdBGColor, // Custom scaffold color
+      home: HomePage(toggleTheme: toggleTheme),
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: tdBGColor,
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.black,
+      ),
+      themeMode: isDarkTheme ? ThemeMode.dark : ThemeMode.light,
     );
   }
 }
